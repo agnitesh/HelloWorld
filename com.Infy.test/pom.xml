@@ -3,11 +3,99 @@
   <groupId>MavenProject</groupId>
   <artifactId>com.Infy.test</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <selenium.version>3.7.1</selenium.version>
+    <overwrite.binaries>false</overwrite.binaries>
+    <browser>firefox</browser>
+    <threads>1</threads>
+    <remote>false</remote>
+    <seleniumGridURL/>
+    <platform/>
+    <browserVersion/>
+</properties>
+
+
+
   <dependencies>
      <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
-        <version>3.7.1</version>
+        <version>${selenium.version}</version>
     </dependency>
+    <!-- TestNG dependencies  -->
+        <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>6.8.8</version>
+        <scope>test</scope>
+    </dependency>
+    <!-- Selenium remote server -->
+    
+       <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-remote-driver</artifactId>
+        <version>${selenium.version}</version>
+    </dependency>
+    <!-- Hemcrest matcher -->
+ <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-all</artifactId>
+        <version>1.3</version>
+    </dependency>
+    
+    
     </dependencies>
+      <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                    </configuration>
+                    <version>2.3.2</version>
+                </plugin>
+     
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.7.2</version>
+                    <configuration>
+                        <parallel>methods</parallel>
+                        <threadCount>${threads}</threadCount>
+                        <systemProperties>
+                            <browser>${browser}</browser>
+                            <screenshotDirectory>${project.build.directory}/screenshots</screenshotDirectory>
+                            <remoteDriver>${remote}</remoteDriver>
+                            <gridURL>${seleniumGridURL}</gridURL>
+                            <desiredPlatform>${platform}</desiredPlatform>
+                            <desiredBrowserVersion>${browserVersion}</desiredBrowserVersion>
+
+                            <!--Set properties passed in by the driver binary downloader-->
+                            <phantomjs.binary.path>${phantomjs.binary.path}</phantomjs.binary.path>
+                            <webdriver.chrome.driver>${webdriver.chrome.driver}</webdriver.chrome.driver>
+                            <webdriver.ie.driver>${webdriver.ie.driver}</webdriver.ie.driver>
+                            <webdriver.opera.driver>${webdriver.opera.driver}</webdriver.opera.driver>
+                        </systemProperties>
+                        <includes>
+                            <include>**/*WebDriver.java</include>
+                        </includes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
 </project>
